@@ -1,27 +1,22 @@
 import './style.css';
-import javascriptLogo from './javascript.svg';
+import { sketch } from './modules/canvas';
 
 
-
-
+// Init app HTML
 document.querySelector('#app').innerHTML = `
   <div>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
     <h1>music-of-decay</h1>
     <div class="card">
       <button id="btn_play" type="button">Play</button>
+	  <button id="btn_stop" type="button">Stop</button>
     </div>
-    <div class="card">
-      <button id="btn_stop" type="button">Stop</button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
+    <div id="p5-container"></div>
   </div>
 `;
 
+// Init P5 canvas
+const containerElement = document.getElementById('p5-container');
+const canvas = new p5(sketch, containerElement);
 
 
 
@@ -235,6 +230,8 @@ fetchSample('samples/RoomMedium.wav').then(convolverBuffer => {
 			// playSample('Chorus female', musicalNote);
 			// playSampleWithConvolver('Chorus female', musicalNote, convolver);
 			// playSample('Tremulo', musicalNote);
+
+			canvas.addDecayParticle();
 		};
 	});
 
