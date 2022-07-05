@@ -1,6 +1,6 @@
 // Functions to generate sounds using browsers AudioContext
-// Based on:
-// https://teropa.info/blog/2016/07/28/javascript-systems-music.html#brian-enoambient-1-music-for-airports-2-11978
+// Based on: https://teropa.info/blog/2016/07/28/javascript-systems-music.html#brian-enoambient-1-music-for-airports-2-11978
+// Optimized and restructured code, intruduced simple caches
 // Instruments: https://github.com/peastman/sso
 // Reverb from: https://www.airwindows.com/airwindows-impulses/
 
@@ -75,6 +75,7 @@ export class SoundGenerator {
 
 
     _audioContext = null;
+
 	_sampleCache = {};
 	_convolverCache = {};
 	_instrument = "Grand Piano";

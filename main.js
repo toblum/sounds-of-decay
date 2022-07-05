@@ -67,8 +67,6 @@ socket.onerror = function (error) {
 
 
 
-
-// https://teropa.info/blog/2016/07/28/javascript-systems-music.html#brian-enoambient-1-music-for-airports-2-11978
 const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 
 (async () => {
@@ -83,7 +81,6 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 		console.log("Set convolver to:", e.target.value);
 		soundGenerator.setConvolver(e.target.value);
 	});
-
 
 	document.getElementById("btn_play").addEventListener("click", e => {
 		soundGenerator.resume();
