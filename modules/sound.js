@@ -139,14 +139,14 @@ export class SoundGenerator {
 
 		// Implement simple sample cache
 		if (this._sampleCache[sample.file]) {
-			console.log("getSample() CACHED", instrument, noteAndOctave);
+			// console.log("getSample() CACHED", instrument, noteAndOctave);
 			return {
 				audioBuffer: this._sampleCache[sample.file],
 				distance: distance,
 			};
 		} else {
 			const audioBuffer = await this.fetchSample(sample.file);
-			console.log("getSample() REMOTE", instrument, noteAndOctave);
+			// console.log("getSample() REMOTE", instrument, noteAndOctave);
 			this._sampleCache[sample.file] = audioBuffer;
 			return {
 				audioBuffer: audioBuffer,

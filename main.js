@@ -32,10 +32,6 @@ socket.onopen = function (e) {
 	console.log('Sending to server');
 };
 
-// socket.onmessage = function (event) {
-// 	console.log(`[message] Data received from server: ${event.data}`);
-// };
-
 socket.onclose = function (event) {
 	if (event.wasClean) {
 		console.log(
@@ -53,11 +49,11 @@ socket.onerror = function (error) {
 };
 
 
+
+
+
 // https://teropa.info/blog/2016/07/28/javascript-systems-music.html#brian-enoambient-1-music-for-airports-2-11978
 const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
-
-
-
 
 (async () => {
 	const convolver = await soundGenerator.loadConvolver('samples/RoomMedium.wav');
@@ -83,5 +79,3 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 		soundGenerator.suspend();
 	});
 })();
-
-
