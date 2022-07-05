@@ -26,6 +26,14 @@ document.querySelector('#app').innerHTML = `
 				<option value="AirportTerminal">Airport Terminal</option>
 			</select>
 		</div>
+		<div>
+			<label for="rng_gain">Gain:</label>
+			<input type="range" id="rng_gain" min="0" max="2" value="0.7" step="0.01">
+		</div>
+		<div>
+			<label for="rng_fade">Fade time:</label>
+			<input type="range" id="rng_fade" min="0" max="2" value="0.7" step="0.1">
+		</div>
 	</div>
     <div id="p5-container"></div>
   </div>
@@ -80,6 +88,16 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 	document.getElementById("sel_convolver").addEventListener("change", e => {
 		console.log("Set convolver to:", e.target.value);
 		soundGenerator.setConvolver(e.target.value);
+	});
+
+	document.getElementById("rng_gain").addEventListener("input", e => {
+		console.log("Set gain to:", e.target.value);
+		soundGenerator.setGain(e.target.value);
+	});
+
+	document.getElementById("rng_fade").addEventListener("input", e => {
+		console.log("Set fade to:", e.target.value);
+		soundGenerator.setFade(e.target.value);
 	});
 
 	document.getElementById("btn_play").addEventListener("click", e => {

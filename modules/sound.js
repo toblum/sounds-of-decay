@@ -80,6 +80,8 @@ export class SoundGenerator {
 	_convolverCache = {};
 	_instrument = "Grand Piano";
 	_convolver = null;
+	_gain = 0.7;
+	_fade = 0.7;
 
     constructor() {
         this._audioContext = new AudioContext();
@@ -178,12 +180,16 @@ export class SoundGenerator {
 		bufferSource.buffer = audioBuffer;
 		bufferSource.playbackRate.value = playbackRate;
 
+		const gainNode = this._audioContext.createGain();
+		gainNode.gain.value = this._gain;
+		gainNode.gain.linearRampToValueAtTime(0, this._audioContext.currentTime + this._fade);
+
 		if (!destination) {
 			// Output directly to the destination
-			bufferSource.connect(this._audioContext.destination);
+			bufferSource.connect(gainNode).connect(this._audioContext.destination);
 		} else {
 			// Output to the given destination
-			bufferSource.connect(destination);
+			bufferSource.connect(gainNode).connect(destination);
 		}
 
 		const delay = (delaySeconds > 0) ? this._audioContext.currentTime + delaySeconds : null;
@@ -222,6 +228,14 @@ export class SoundGenerator {
 		} else {
 			console.warn("Selected instrument not found:", instrument);
 		}
+	}
+
+	setGain(gain) {
+		this._gain = gain;
+	}
+
+	setFade(fade) {
+		this._fade = Number(Number(fade).toFixed(2));
 	}
 
 	suspend() {
