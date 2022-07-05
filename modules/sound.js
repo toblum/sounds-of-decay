@@ -72,10 +72,12 @@ export class SoundGenerator {
 
     _audioContext = null;
 	_sampleCache = {};
+	_instrument = "Grand Piano";
 
     constructor() {
         this._audioContext = new AudioContext();
     }
+
 
     // Helper functions
     fetchSample(path) {
@@ -157,7 +159,11 @@ export class SoundGenerator {
 
 
 	// Public playing functions
-	async playSample(instrument, note, destination = null, delaySeconds = 0) {
+	async playSample(note, destination = null, delaySeconds = 0) {
+		await this.playSampleWithInstrument(this._instrument, note, destination, delaySeconds);
+	};
+
+	async playSampleWithInstrument(instrument, note, destination = null, delaySeconds = 0) {
 		const { audioBuffer, distance } = await this.getSample(instrument, note);
 
 		let playbackRate = Math.pow(2, distance / 12);
@@ -185,6 +191,14 @@ export class SoundGenerator {
 		convolver.connect(this._audioContext.destination);
 		console.log("Convolver loaded");
 		return convolver;
+	}
+
+	setInstrument(instrument) {
+		if (this.SAMPLE_LIBRARY[instrument]) {
+			this._instrument = instrument;
+		} else {
+			console.warn("Selected instrument not found:", instrument);
+		}
 	}
 
 	suspend() {

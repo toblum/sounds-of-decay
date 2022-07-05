@@ -11,6 +11,15 @@ document.querySelector('#app').innerHTML = `
       <button id="btn_play" type="button">Play</button>
 	  <button id="btn_stop" type="button">Stop</button>
     </div>
+	<div>
+		<div>
+			<select id="sel_instrument">
+				<option value="Grand Piano">Grand Piano</option>
+				<option value="Chorus female">Chorus female</option>
+				<option value="Tremulo">Tremulo</option>
+			</select>
+		</div>
+	</div>
     <div id="p5-container"></div>
   </div>
 `;
@@ -58,18 +67,21 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 (async () => {
 	const convolver = await soundGenerator.loadConvolver('samples/RoomMedium.wav');
 
+	document.getElementById("sel_instrument").addEventListener("change", e => {
+		console.log("Set intrument to:", e.target.value);
+		soundGenerator.setInstrument(e.target.value);
+	});
+
+
 	document.getElementById("btn_play").addEventListener("click", e => {
 		soundGenerator.resume();
 
 		socket.onmessage = function (event) {
-			console.log(`[message] Data received from server: ${event.data}`);
+			// console.log(`[message] Data received from server: ${event.data}`);
 
 			var musicalNote = musicalNotes[Math.floor(Math.random() * musicalNotes.length)];
-			soundGenerator.playSample('Grand Piano', musicalNote);
-			// soundGenerator.playSample('Grand Piano', musicalNote, convolver);
-			// soundGenerator.playSample('Chorus female', musicalNote);
-			// soundGenerator.playSample('Chorus female', musicalNote, convolver);
-			// soundGenerator.playSample('Tremulo', musicalNote);
+			soundGenerator.playSample(musicalNote);
+			// soundGenerator.playSample(musicalNote, convolver);
 
 			canvas.addDecayParticle();
 		};
