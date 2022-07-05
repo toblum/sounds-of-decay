@@ -70,11 +70,11 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 			console.log(`[message] Data received from server: ${event.data}`);
 
 			var musicalNote = musicalNotes[Math.floor(Math.random() * musicalNotes.length)];
-			// soundsGenerator.playSample('Grand Piano', musicalNote);
-			soundGenerator.playSampleWithConvolver('Grand Piano', musicalNote, convolver);
-			// soundsGenerator.playSample('Chorus female', musicalNote);
-			// soundsGenerator.playSampleWithConvolver('Chorus female', musicalNote, convolver);
-			// soundsGenerator.playSample('Tremulo', musicalNote);
+			soundGenerator.playSample('Grand Piano', musicalNote);
+			// soundGenerator.playSample('Grand Piano', musicalNote, convolver);
+			// soundGenerator.playSample('Chorus female', musicalNote);
+			// soundGenerator.playSample('Chorus female', musicalNote, convolver);
+			// soundGenerator.playSample('Tremulo', musicalNote);
 
 			canvas.addDecayParticle();
 		};
