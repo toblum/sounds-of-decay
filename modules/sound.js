@@ -143,18 +143,7 @@ export class SoundGenerator {
 
 
 	// Public playing functions
-	playSample(instrument, note) {
-		this.getSample(instrument, note).then(({ audioBuffer, distance }) => {
-			let playbackRate = Math.pow(2, distance / 12);
-			let bufferSource = this._audioContext.createBufferSource();
-			bufferSource.buffer = audioBuffer;
-			bufferSource.playbackRate.value = playbackRate;
-			bufferSource.connect(this._audioContext.destination);
-			bufferSource.start();
-		});
-	}
-	
-	playSampleWithConvolver(instrument, note, destination, delaySeconds = 0) {
+	playSample(instrument, note, destination = null, delaySeconds = 0) {
 		this.getSample(instrument, note).then(({ audioBuffer, distance }) => {
 			let playbackRate = Math.pow(2, distance / 12);
 			let bufferSource = this._audioContext.createBufferSource();
@@ -162,8 +151,16 @@ export class SoundGenerator {
 			bufferSource.buffer = audioBuffer;
 			bufferSource.playbackRate.value = playbackRate;
 	
-			bufferSource.connect(destination);
-			bufferSource.start(this._audioContext.currentTime + delaySeconds);
+			if (!destination) {
+				// Output directly to the destination
+				bufferSource.connect(this._audioContext.destination);
+			} else {
+				// Output to the given destination
+				bufferSource.connect(destination);
+			}
+
+			const delay = (delaySeconds > 0) ? this._audioContext.currentTime + delaySeconds : null;
+			bufferSource.start(delay);
 		});
 	}
 
