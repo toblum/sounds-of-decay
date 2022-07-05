@@ -61,7 +61,6 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 
 (async () => {
 	const convolver = await soundGenerator.loadConvolver('samples/RoomMedium.wav');
-	console.log("+++");
 
 	document.getElementById("btn_play").addEventListener("click", e => {
 		soundGenerator.resume();

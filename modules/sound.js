@@ -71,6 +71,7 @@ export class SoundGenerator {
 
 
     _audioContext = null;
+	_sampleCache = {};
 
     constructor() {
         this._audioContext = new AudioContext();
@@ -121,7 +122,7 @@ export class SoundGenerator {
         }
     }
 
-    getSample(instrument, noteAndOctave) {
+    async getSample(instrument, noteAndOctave) {
         let [, requestedNote, requestedOctave] = /^(\w[b\#]?)(\d)$/.exec(
             noteAndOctave
         );
@@ -135,33 +136,45 @@ export class SoundGenerator {
             sample.note,
             sample.octave
         );
-        return this.fetchSample(sample.file).then((audioBuffer) => ({
-            audioBuffer: audioBuffer,
-            distance: distance,
-        }));
+
+		// Implement simple sample cache
+		if (this._sampleCache[sample.file]) {
+			console.log("getSample() CACHED", instrument, noteAndOctave);
+			return {
+				audioBuffer: this._sampleCache[sample.file],
+				distance: distance,
+			};
+		} else {
+			const audioBuffer = await this.fetchSample(sample.file);
+			console.log("getSample() REMOTE", instrument, noteAndOctave);
+			this._sampleCache[sample.file] = audioBuffer;
+			return {
+				audioBuffer: audioBuffer,
+				distance: distance,
+			};
+		}
     }
 
 
 	// Public playing functions
-	playSample(instrument, note, destination = null, delaySeconds = 0) {
-		this.getSample(instrument, note).then(({ audioBuffer, distance }) => {
-			let playbackRate = Math.pow(2, distance / 12);
-			let bufferSource = this._audioContext.createBufferSource();
-	
-			bufferSource.buffer = audioBuffer;
-			bufferSource.playbackRate.value = playbackRate;
-	
-			if (!destination) {
-				// Output directly to the destination
-				bufferSource.connect(this._audioContext.destination);
-			} else {
-				// Output to the given destination
-				bufferSource.connect(destination);
-			}
+	async playSample(instrument, note, destination = null, delaySeconds = 0) {
+		const { audioBuffer, distance } = await this.getSample(instrument, note);
 
-			const delay = (delaySeconds > 0) ? this._audioContext.currentTime + delaySeconds : null;
-			bufferSource.start(delay);
-		});
+		let playbackRate = Math.pow(2, distance / 12);
+		let bufferSource = this._audioContext.createBufferSource();
+		bufferSource.buffer = audioBuffer;
+		bufferSource.playbackRate.value = playbackRate;
+
+		if (!destination) {
+			// Output directly to the destination
+			bufferSource.connect(this._audioContext.destination);
+		} else {
+			// Output to the given destination
+			bufferSource.connect(destination);
+		}
+
+		const delay = (delaySeconds > 0) ? this._audioContext.currentTime + delaySeconds : null;
+		bufferSource.start(delay);
 	}
 
 	async loadConvolver(url) {
@@ -170,7 +183,7 @@ export class SoundGenerator {
 		let convolver = this._audioContext.createConvolver();
 		convolver.buffer = convolverBuffer;
 		convolver.connect(this._audioContext.destination);
-		console.log("Convolver connected");
+		console.log("Convolver loaded");
 		return convolver;
 	}
 
