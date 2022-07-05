@@ -54,6 +54,10 @@ export class SoundGenerator {
             { note: 'G', octave: 5, file: 'samples/Tremulo/5_G.wav' },
         ],
     };
+	CONVOLVER_LIBRARY = {
+		'AirportTerminal' : 'samples/AirportTerminal.wav',
+		'RoomMedium' : 'samples/RoomMedium.wav',
+	};
     OCTAVE = [
         'C',
         'C#',
@@ -72,7 +76,9 @@ export class SoundGenerator {
 
     _audioContext = null;
 	_sampleCache = {};
+	_convolverCache = {};
 	_instrument = "Grand Piano";
+	_convolver = null;
 
     constructor() {
         this._audioContext = new AudioContext();
@@ -159,8 +165,8 @@ export class SoundGenerator {
 
 
 	// Public playing functions
-	async playSample(note, destination = null, delaySeconds = 0) {
-		await this.playSampleWithInstrument(this._instrument, note, destination, delaySeconds);
+	async playSample(note, delaySeconds = 0) {
+		await this.playSampleWithInstrument(this._instrument, note, this._convolver, delaySeconds);
 	};
 
 	async playSampleWithInstrument(instrument, note, destination = null, delaySeconds = 0) {
@@ -191,6 +197,22 @@ export class SoundGenerator {
 		convolver.connect(this._audioContext.destination);
 		console.log("Convolver loaded");
 		return convolver;
+	}
+
+	async setConvolver(convolver) {
+		const url = this.CONVOLVER_LIBRARY[convolver];
+
+		if (url) {
+			if (!this._convolverCache[url]) {
+				const convolverSample = await this.loadConvolver(url);
+				this._convolverCache[url] = convolverSample;
+			}
+			console.log("setConvolver()", convolver, url);
+			this._convolver = this._convolverCache[url];
+		} else {
+			console.log("Deactivated convolver", convolver);
+			this._convolver = null;
+		}
 	}
 
 	setInstrument(instrument) {

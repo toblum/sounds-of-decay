@@ -19,6 +19,13 @@ document.querySelector('#app').innerHTML = `
 				<option value="Tremulo">Tremulo</option>
 			</select>
 		</div>
+		<div>
+			<select id="sel_convolver">
+				<option value="">- None -</option>
+				<option value="RoomMedium">Medium room</option>
+				<option value="AirportTerminal">Airport Terminal</option>
+			</select>
+		</div>
 	</div>
     <div id="p5-container"></div>
   </div>
@@ -72,6 +79,11 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 		soundGenerator.setInstrument(e.target.value);
 	});
 
+	document.getElementById("sel_convolver").addEventListener("change", e => {
+		console.log("Set convolver to:", e.target.value);
+		soundGenerator.setConvolver(e.target.value);
+	});
+
 
 	document.getElementById("btn_play").addEventListener("click", e => {
 		soundGenerator.resume();
@@ -81,7 +93,6 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 
 			var musicalNote = musicalNotes[Math.floor(Math.random() * musicalNotes.length)];
 			soundGenerator.playSample(musicalNote);
-			// soundGenerator.playSample(musicalNote, convolver);
 
 			canvas.addDecayParticle();
 		};
