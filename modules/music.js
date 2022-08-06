@@ -4,5 +4,4 @@
 
 export class MusicGenerator {
     MUSICAL_NOTES = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
-
 }

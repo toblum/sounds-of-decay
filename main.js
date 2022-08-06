@@ -78,6 +78,22 @@ socket.onerror = function (error) {
 const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 
 (async () => {
+	const playNote = () => {
+		var musicalNote = musicalNotes[Math.floor(Math.random() * musicalNotes.length)];
+		soundGenerator.playSample(musicalNote);
+	};
+
+	const startPlay = () => {
+		soundGenerator.resume();
+
+		socket.onmessage = function (event) {
+			// console.log(`[message] Data received from server: ${event.data}`);
+			playNote();
+
+			canvas.addDecayParticle();
+		};
+	};
+
 	document.getElementById("sel_instrument").addEventListener("change", e => {
 		console.log("Set intrument to:", e.target.value);
 		soundGenerator.setInstrument(e.target.value);
@@ -99,19 +115,18 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 	});
 
 	document.getElementById("btn_play").addEventListener("click", e => {
-		soundGenerator.resume();
-
-		socket.onmessage = function (event) {
-			// console.log(`[message] Data received from server: ${event.data}`);
-
-			var musicalNote = musicalNotes[Math.floor(Math.random() * musicalNotes.length)];
-			soundGenerator.playSample(musicalNote);
-
-			canvas.addDecayParticle();
-		};
+		startPlay();
 	});
 
 	document.getElementById("btn_stop").addEventListener("click", e => {
 		soundGenerator.suspend();
+	});
+
+	containerElement.addEventListener("clickPlay", () => {
+		startPlay();
+	});
+
+	containerElement.addEventListener("clickCanvas", () => {
+		playNote();
 	});
 })();
