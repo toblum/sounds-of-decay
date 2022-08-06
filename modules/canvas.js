@@ -11,7 +11,6 @@ export const sketch = (p) => {
 
 	p.setup = function () {
 		p.createCanvas(800, 400);
-		
 	};
 	
 	p.draw = function () {
@@ -35,18 +34,18 @@ export const sketch = (p) => {
 	};
 
 	p.mousePressed = () => {
-		if (p.state === "wait_for_play") {
-			const event = new Event('clickPlay');
-			p._userNode.dispatchEvent(event);
-			p.state = "playing";
-		}
-
 		if (p.state === "playing") {
 			const dp = new DecayParticle(p.mouseX, p.mouseY);
 			particles.push(dp);
 
 			const event = new Event('clickCanvas');
 			p._userNode.dispatchEvent(event);
+		}
+
+		if (p.state === "wait_for_play" && p.bb.isHovered()) {
+			const event = new Event('clickPlay');
+			p._userNode.dispatchEvent(event);
+			p.state = "playing";
 		}
 	};
 
@@ -55,21 +54,28 @@ export const sketch = (p) => {
 		particles.push(dp);
 	};
 
+	p.pause = () => {
+		p.state = "wait_for_play";
+	};
+
 
 	class BigButton {
 		constructor(size) {
 			this.size = size;
+			this.xpos = p.width / 2;
+			this.ypos = p.height / 2;
+		}
+
+		isHovered() {
+			const halfsize = this.size / 2;
+			return (p.mouseX > this.xpos - halfsize && 
+				p.mouseX < this.xpos + halfsize && 
+				p.mouseY > this.ypos - halfsize && 
+				p.mouseY < this.ypos + halfsize);
 		}
 
 		display() {
-			const xpos = p.width / 2;
-			const ypos = p.height / 2;
-			const halfsize = this.size / 2;
-
-			const hovered = (p.mouseX > xpos - halfsize && 
-				p.mouseX < xpos + halfsize && 
-				p.mouseY > ypos - halfsize && 
-				p.mouseY < ypos + halfsize);
+			const hovered = this.isHovered();
 
 			const opacity = (hovered) ? 200 : 80;
 			let colFill = p.color(255, 255, 255, opacity);
@@ -77,12 +83,12 @@ export const sketch = (p) => {
 			let colStroke = p.color(255, 255, 255);
 			p.stroke(colStroke);
 			p.rectMode(p.CENTER);
-			p.rect(xpos, ypos, this.size, this.size, 20);
+			p.rect(this.xpos, this.ypos, this.size, this.size, 20);
 
 			const opacityTriangle = (hovered) ? 150 : 50;
 			colFill = p.color(0, 0, 0, opacityTriangle);
 			p.fill(colFill);
-			p.triangle(xpos - (this.size*0.3), ypos - (this.size*0.3), xpos - (this.size*0.3), ypos + (this.size*0.3), xpos + (this.size*0.3), ypos);
+			p.triangle(this.xpos - (this.size*0.3), this.ypos - (this.size*0.3), this.xpos - (this.size*0.3), this.ypos + (this.size*0.3), this.xpos + (this.size*0.3), this.ypos);
 		}
 	}
 

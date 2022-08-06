@@ -8,8 +8,7 @@ document.querySelector('#app').innerHTML = `
   <div>
     <h1>music-of-decay</h1>
     <div class="card">
-      <button id="btn_play" type="button">Play</button>
-	  <button id="btn_stop" type="button">Stop</button>
+	  <button id="btn_pause" type="button">Pause</button>
     </div>
 	<div>
 		<div>
@@ -78,19 +77,23 @@ socket.onerror = function (error) {
 const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 
 (async () => {
+	let isPlaying = false;
+
 	const playNote = () => {
 		var musicalNote = musicalNotes[Math.floor(Math.random() * musicalNotes.length)];
 		soundGenerator.playSample(musicalNote);
 	};
 
 	const startPlay = () => {
-		soundGenerator.resume();
+		isPlaying = true;
 
 		socket.onmessage = function (event) {
 			// console.log(`[message] Data received from server: ${event.data}`);
-			playNote();
 
-			canvas.addDecayParticle();
+			if (isPlaying) {
+				playNote();
+				canvas.addDecayParticle();
+			}
 		};
 	};
 
@@ -114,12 +117,9 @@ const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 		soundGenerator.setFade(e.target.value);
 	});
 
-	document.getElementById("btn_play").addEventListener("click", e => {
-		startPlay();
-	});
-
-	document.getElementById("btn_stop").addEventListener("click", e => {
-		soundGenerator.suspend();
+	document.getElementById("btn_pause").addEventListener("click", e => {
+		isPlaying = false;
+		canvas.pause();
 	});
 
 	containerElement.addEventListener("clickPlay", () => {
