@@ -3,22 +3,34 @@
 // https://teropa.info/blog/2016/07/28/javascript-systems-music.html#brian-enoambient-1-music-for-airports-2-11978
 
 // Definitions
-const MUSICAL_NOTES_AIRPORTS = ["F4", "Ab4", "C5", "Db5", "Eb5", "F5", "Ab5"];
-
-const MELODIES = [
-	"musicforairports",
-];
+const NOTEPOOLS = {
+	"musicforairports": {
+		"title": "Brian Eno - Ambient 1: Music for Airports, 2/1 (1978)",
+		"notes": ["F4", "Ab4", "C5", "Db5", "Eb5", "F5", "Ab5"],
+	},
+	"gesdur_pentatonic": {
+		"title": "Ges-Dur-Pentatonik (schwarze Tasten)",
+		"notes": ["F#2", "G#2", "A#2", "C#3", "D#3"],
+	},
+	"cdur_pentatonic": {
+		"title": "C-Dur-Pentatonik",
+		"notes": ["C3", "D3", "E3", "G3", "A3"],
+	},
+	"amoll_pentatonic": {
+		"title": "C-Dur-Pentatonik",
+		"notes": ["A2", "C3", "D3", "E3", "G3"],
+	},
+};
 
 export class MusicGenerator {
-
 	constructor(soundGenerator) {
 		this.soundGenerator = soundGenerator;
-		this.currentMelody = MELODIES[0];
+		this.setNotepool("musicforairports");
 	}
 
-	setMelody(melody) {
-		if (MELODIES.contains(melody)) {
-			this.currentMelody = melody;
+	setNotepool(notepool) {
+		if (NOTEPOOLS[notepool]) {
+			this.currentNotepool = NOTEPOOLS[notepool].notes;
 			return true;
 		} else {
 			return false;
@@ -26,9 +38,7 @@ export class MusicGenerator {
 	}
 
 	playNextNote() {
-		if (this.currentMelody === "musicforairports") {
-			var musicalNote = MUSICAL_NOTES_AIRPORTS[Math.floor(Math.random() * MUSICAL_NOTES_AIRPORTS.length)];
-			this.soundGenerator.playSample(musicalNote);
-		}
+		var musicalNote = this.currentNotepool[Math.floor(Math.random() * this.currentNotepool.length)];
+		this.soundGenerator.playSample(musicalNote);
 	}
 }
