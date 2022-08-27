@@ -1,10 +1,11 @@
-import './style.css';
-import { sketch } from './modules/canvas';
-import { SoundGenerator } from './modules/sound';
+import "./style.css";
+import { sketch } from "./modules/canvas";
+import { SoundGenerator } from "./modules/sound";
+import { MusicGenerator } from "./modules/musicgenerator";
 
 
 // Init app HTML
-document.querySelector('#app').innerHTML = `
+document.querySelector("#app").innerHTML = `
   <div>
     <h1>music-of-decay</h1>
     <div class="card">
@@ -39,7 +40,8 @@ document.querySelector('#app').innerHTML = `
 `;
 
 // Init P5 canvas
-const containerElement = document.getElementById('p5-container');
+const containerElement = document.getElementById("p5-container");
+// eslint-disable-next-line no-undef
 const canvas = new p5(sketch, containerElement);
 
 // Init sound and music generator
@@ -48,11 +50,11 @@ const musicGenerator = new MusicGenerator(soundGenerator);
 
 
 
-let socket = new WebSocket('ws://diskstation:1881/ws/decay');
+let socket = new WebSocket("ws://diskstation:1881/ws/decay");
 
-socket.onopen = function (e) {
-	console.log('[open] Connection established');
-	console.log('Sending to server');
+socket.onopen = function () {
+	console.log("[open] Connection established");
+	console.log("Sending to server");
 };
 
 socket.onclose = function (event) {
@@ -63,7 +65,7 @@ socket.onclose = function (event) {
 	} else {
 		// e.g. server process killed or network down
 		// event.code is usually 1006 in this case
-		console.log('[close] Connection died');
+		console.log("[close] Connection died");
 	}
 };
 
@@ -84,7 +86,7 @@ socket.onerror = function (error) {
 		isPlaying = true;
 
 		socket.onmessage = function (event) {
-			// console.log(`[message] Data received from server: ${event.data}`);
+			console.log(`[message] Data received from server: ${event.data}`);
 
 			if (isPlaying) {
 				playNote();
@@ -113,7 +115,7 @@ socket.onerror = function (error) {
 		soundGenerator.setFade(e.target.value);
 	});
 
-	document.getElementById("btn_pause").addEventListener("click", e => {
+	document.getElementById("btn_pause").addEventListener("click", () => {
 		isPlaying = false;
 		canvas.pause();
 	});

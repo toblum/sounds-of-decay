@@ -2,27 +2,28 @@
 // Based on:
 // https://teropa.info/blog/2016/07/28/javascript-systems-music.html#brian-enoambient-1-music-for-airports-2-11978
 
+// Definitions
+const MUSICAL_NOTES_AIRPORTS = ["F4", "Ab4", "C5", "Db5", "Eb5", "F5", "Ab5"];
+
+const MELODIES = [
+	"musicforairports",
+];
+
 export class MusicGenerator {
-    // Definitions
-    MUSICAL_NOTES_AIRPORTS = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
 
-    MELODIES = [
-        "musicforairports",
-    ];
-
-    constructor (soundGenerator) {
+	constructor(soundGenerator) {
 		this.soundGenerator = soundGenerator;
-        this.currentMelody = MELODIES[0];
-    }
+		this.currentMelody = MELODIES[0];
+	}
 
-    setMelody(melody) {
-        if (MELODIES.contains(melody)) {
-            this.currentMelody = melody;
+	setMelody(melody) {
+		if (MELODIES.contains(melody)) {
+			this.currentMelody = melody;
 			return true;
-        } else {
+		} else {
 			return false;
 		}
-    }
+	}
 
 	playNextNote() {
 		if (this.currentMelody === "musicforairports") {

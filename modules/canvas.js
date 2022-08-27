@@ -38,12 +38,12 @@ export const sketch = (p) => {
 			const dp = new DecayParticle(p.mouseX, p.mouseY);
 			particles.push(dp);
 
-			const event = new Event('clickCanvas');
+			const event = new Event("clickCanvas");
 			p._userNode.dispatchEvent(event);
 		}
 
 		if (p.state === "wait_for_play" && p.bb.isHovered()) {
-			const event = new Event('clickPlay');
+			const event = new Event("clickPlay");
 			p._userNode.dispatchEvent(event);
 			p.state = "playing";
 		}
