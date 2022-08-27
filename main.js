@@ -1,19 +1,23 @@
 import "./style.css";
 import { sketch } from "./modules/canvas";
 import { SoundGenerator } from "./modules/sound";
-import { MusicGenerator, NOTEPOOLS } from "./modules/musicgenerator";
+import { MELODYGENERATOR, MusicGenerator, NOTEPOOLS } from "./modules/musicgenerator";
 
 
 // Init app HTML
 document.querySelector("#app").innerHTML = `
   <div>
-    <h1>music-of-decay</h1>
+    <h3>music-of-decay</h3>
     <div class="card">
 	  <button id="btn_pause" type="button">Pause</button>
     </div>
 	<div>
 		<div>
 			<select id="sel_notepool">
+			</select>
+		</div>
+		<div>
+			<select id="sel_melodygenerator">
 			</select>
 		</div>
 		<div>
@@ -101,15 +105,28 @@ socket.onerror = function (error) {
 
 	for (const key in NOTEPOOLS) {
 		const notepool = NOTEPOOLS[key];
-		var option = document.createElement("option");
-		option.text = notepool.title;
-		option.value = key;
-		document.getElementById("sel_notepool").add(option);
+		var option_notepool = document.createElement("option");
+		option_notepool.text = notepool.title;
+		option_notepool.value = key;
+		document.getElementById("sel_notepool").add(option_notepool);
 	}
 
 	document.getElementById("sel_notepool").addEventListener("change", e => {
 		console.log("Set notepool to:", e.target.value);
 		musicGenerator.setNotepool(e.target.value);
+	});
+
+	for (const key in MELODYGENERATOR) {
+		const melodygenerator = MELODYGENERATOR[key];
+		var option_melodygenerator = document.createElement("option");
+		option_melodygenerator.text = melodygenerator.title;
+		option_melodygenerator.value = key;
+		document.getElementById("sel_melodygenerator").add(option_melodygenerator);
+	}
+
+	document.getElementById("sel_melodygenerator").addEventListener("change", e => {
+		console.log("Set melody generator to:", e.target.value);
+		musicGenerator.setMelodygenerator(e.target.value);
 	});
 
 	document.getElementById("sel_instrument").addEventListener("change", e => {

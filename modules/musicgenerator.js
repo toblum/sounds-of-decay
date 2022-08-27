@@ -22,23 +22,81 @@ export const NOTEPOOLS = {
 	},
 };
 
+export const MELODYGENERATOR = {
+	"random": {"title": "Random note from the pool"},
+	"static_melody": {"title": "Static melody"},
+	"changing_melody_10": {"title": "Changing melody, 10% chance"},
+	"changing_melody_30": {"title": "Changing melody, 30% chance"},
+	"changing_melody_60": {"title": "Changing melody, 60% chance"},
+};
+
 export class MusicGenerator {
 	constructor(soundGenerator) {
 		this.soundGenerator = soundGenerator;
 		this.setNotepool("musicforairports");
+		this.setMelodygenerator("random");
+		this.currentNoteIndex = 0;
 	}
 
 	setNotepool(notepool) {
 		if (NOTEPOOLS[notepool]) {
 			this.currentNotepool = NOTEPOOLS[notepool].notes;
+			this.currentMelody = [...NOTEPOOLS[notepool].notes]; // Cloning to get a copy of the pool forthe melody
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	setMelodygenerator(melodygenerator) {
+		if (MELODYGENERATOR[melodygenerator]) {
+			this.currentMelodygenerator = melodygenerator;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	increaseNoteIndex() {
+		this.currentNoteIndex++;
+		if (this.currentNoteIndex >= this.currentMelody.length) {
+			this.currentNoteIndex = 0;
+		}
+	}
+
 	playNextNote() {
-		var musicalNote = this.currentNotepool[Math.floor(Math.random() * this.currentNotepool.length)];
-		this.soundGenerator.playSample(musicalNote);
+		var nextMusicalNote;
+		if (this.currentMelodygenerator === "random") {
+			// RandomNote
+			nextMusicalNote = this.currentMelody[Math.floor(Math.random() * this.currentMelody.length)];
+		} else {
+			// Playing melody
+			nextMusicalNote = this.currentMelody[this.currentNoteIndex];
+
+			// Check if the current note should be changed
+			let noteShouldChange = false;
+			if (this.currentMelodygenerator === "changing_melody_10" && Math.random() < 0.1) {
+				noteShouldChange = true;
+			}
+			if (this.currentMelodygenerator === "changing_melody_30" && Math.random() < 0.3) {
+				noteShouldChange = true;
+			}
+			if (this.currentMelodygenerator === "changing_melody_60" && Math.random() < 0.3) {
+				noteShouldChange = true;
+			}
+
+			if (noteShouldChange) {
+				var newNote = this.currentNotepool[Math.floor(Math.random()*this.currentNotepool.length)];
+				this.currentMelody[this.currentNoteIndex] = newNote;
+				console.log("Melody change:", newNote, this.currentMelody);
+			}
+
+			this.increaseNoteIndex();
+		}
+
+		if (nextMusicalNote) {
+			this.soundGenerator.playSample(nextMusicalNote);
+		}
+
 	}
 }
