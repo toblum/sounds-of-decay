@@ -42,9 +42,9 @@ document.querySelector('#app').innerHTML = `
 const containerElement = document.getElementById('p5-container');
 const canvas = new p5(sketch, containerElement);
 
-// Init sound generator
+// Init sound and music generator
 const soundGenerator = new SoundGenerator();
-
+const musicGenerator = new MusicGenerator(soundGenerator);
 
 
 
@@ -73,15 +73,11 @@ socket.onerror = function (error) {
 
 
 
-
-const musicalNotes = ['F4', 'Ab4', 'C5', 'Db5', 'Eb5', 'F5', 'Ab5'];
-
 (async () => {
 	let isPlaying = false;
 
 	const playNote = () => {
-		var musicalNote = musicalNotes[Math.floor(Math.random() * musicalNotes.length)];
-		soundGenerator.playSample(musicalNote);
+		musicGenerator.playNextNote();
 	};
 
 	const startPlay = () => {
