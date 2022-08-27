@@ -1,7 +1,7 @@
 import "./style.css";
 import { sketch } from "./modules/canvas";
 import { SoundGenerator } from "./modules/sound";
-import { MusicGenerator } from "./modules/musicgenerator";
+import { MusicGenerator, NOTEPOOLS } from "./modules/musicgenerator";
 
 
 // Init app HTML
@@ -12,6 +12,10 @@ document.querySelector("#app").innerHTML = `
 	  <button id="btn_pause" type="button">Pause</button>
     </div>
 	<div>
+		<div>
+			<select id="sel_notepool">
+			</select>
+		</div>
 		<div>
 			<select id="sel_instrument">
 				<option value="Grand Piano">Grand Piano</option>
@@ -94,6 +98,19 @@ socket.onerror = function (error) {
 			}
 		};
 	};
+
+	for (const key in NOTEPOOLS) {
+		const notepool = NOTEPOOLS[key];
+		var option = document.createElement("option");
+		option.text = notepool.title;
+		option.value = key;
+		document.getElementById("sel_notepool").add(option);
+	}
+
+	document.getElementById("sel_notepool").addEventListener("change", e => {
+		console.log("Set notepool to:", e.target.value);
+		musicGenerator.setNotepool(e.target.value);
+	});
 
 	document.getElementById("sel_instrument").addEventListener("change", e => {
 		console.log("Set intrument to:", e.target.value);

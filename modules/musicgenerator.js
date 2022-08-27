@@ -3,7 +3,7 @@
 // https://teropa.info/blog/2016/07/28/javascript-systems-music.html#brian-enoambient-1-music-for-airports-2-11978
 
 // Definitions
-const NOTEPOOLS = {
+export const NOTEPOOLS = {
 	"musicforairports": {
 		"title": "Brian Eno - Ambient 1: Music for Airports, 2/1 (1978)",
 		"notes": ["F4", "Ab4", "C5", "Db5", "Eb5", "F5", "Ab5"],
