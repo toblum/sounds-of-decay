@@ -6,11 +6,11 @@ import { MELODYGENERATOR, MusicGenerator, NOTEPOOLS } from "./modules/musicgener
 
 // Init app HTML
 document.querySelector("#app").innerHTML = `
-  <div>
-    <h3>music-of-decay</h3>
-    <div class="card">
-	  <button id="btn_pause" type="button">Pause</button>
-    </div>
+<div>
+	<h3>music-of-decay</h3>
+	<div class="card">
+		<button id="btn_pause" type="button">Pause</button>
+	</div>
 	<div>
 		<div>
 			<select id="sel_notepool">
@@ -43,9 +43,8 @@ document.querySelector("#app").innerHTML = `
 			<input type="range" id="rng_fade" min="0" max="2" value="0.7" step="0.1">
 		</div>
 	</div>
-    <div id="p5-container"></div>
-  </div>
-`;
+	<div id="p5-container"></div>
+</div>`;
 
 // Init P5 canvas
 const containerElement = document.getElementById("p5-container");
@@ -58,7 +57,7 @@ const musicGenerator = new MusicGenerator(soundGenerator);
 
 
 
-let socket = new WebSocket("ws://diskstation:1881/ws/decay");
+let socket = new WebSocket("wss://decayrelay.tobiasblum.de");
 
 socket.onopen = function () {
 	console.log("[open] Connection established");
@@ -67,9 +66,7 @@ socket.onopen = function () {
 
 socket.onclose = function (event) {
 	if (event.wasClean) {
-		console.log(
-			`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
-		);
+		console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
 	} else {
 		// e.g. server process killed or network down
 		// event.code is usually 1006 in this case

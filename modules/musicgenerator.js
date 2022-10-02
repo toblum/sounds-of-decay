@@ -17,7 +17,7 @@ export const NOTEPOOLS = {
 		"notes": ["C3", "D3", "E3", "G3", "A3"],
 	},
 	"amoll_pentatonic": {
-		"title": "C-Dur-Pentatonik",
+		"title": "A-Moll-Pentatonik",
 		"notes": ["A2", "C3", "D3", "E3", "G3"],
 	},
 };
@@ -97,6 +97,5 @@ export class MusicGenerator {
 		if (nextMusicalNote) {
 			this.soundGenerator.playSample(nextMusicalNote);
 		}
-
 	}
 }
