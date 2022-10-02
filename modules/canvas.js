@@ -10,7 +10,14 @@ export const sketch = (p) => {
 	p.state = "wait_for_play";
 
 	p.setup = function () {
-		p.createCanvas(800, 400);
+		p.createCanvas(800, 300);
+		p.windowResized();
+	};
+
+	p.windowResized = function () {
+		const windowWidth = document.getElementById("p5-container").clientWidth;
+		const windowHeight = document.getElementById("p5-container").clientHeight;
+		p.resizeCanvas(windowWidth, windowHeight);
 	};
 	
 	p.draw = function () {

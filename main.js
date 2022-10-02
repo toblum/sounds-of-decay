@@ -7,20 +7,23 @@ import { MELODYGENERATOR, MusicGenerator, NOTEPOOLS } from "./modules/musicgener
 // Init app HTML
 document.querySelector("#app").innerHTML = `
 <div>
-	<h3>music-of-decay</h3>
-	<div class="card">
-		<button id="btn_pause" type="button">Pause</button>
-	</div>
-	<div>
+	<div id="header">
 		<div>
+			Sounds of decay<br/>
+			<button id="btn_pause" type="button">Pause</button>
+		</div>
+		<div>
+			Note pool:<br/>
 			<select id="sel_notepool">
 			</select>
 		</div>
 		<div>
+			Melody generator:<br/>
 			<select id="sel_melodygenerator">
 			</select>
 		</div>
 		<div>
+			Intrument:<br/>
 			<select id="sel_instrument">
 				<option value="Grand Piano">Grand Piano</option>
 				<option value="Chorus female">Chorus female</option>
@@ -28,6 +31,7 @@ document.querySelector("#app").innerHTML = `
 			</select>
 		</div>
 		<div>
+			Effects/convolver:<br/>
 			<select id="sel_convolver">
 				<option value="">- None -</option>
 				<option value="RoomMedium">Medium room</option>
@@ -35,15 +39,20 @@ document.querySelector("#app").innerHTML = `
 			</select>
 		</div>
 		<div>
-			<label for="rng_gain">Gain:</label>
+			Gain:<br/>
 			<input type="range" id="rng_gain" min="0" max="2" value="0.7" step="0.01">
 		</div>
 		<div>
-			<label for="rng_fade">Fade time:</label>
+			Fade time:<br/>
 			<input type="range" id="rng_fade" min="0" max="2" value="0.7" step="0.1">
 		</div>
 	</div>
+
 	<div id="p5-container"></div>
+
+	<div id="footer">
+		<div>More informations: <a href="https://github.com/toblum/sounds-of-decay" target="_blank">https://github.com/toblum/sounds-of-decay</a></div>
+	</div>
 </div>`;
 
 // Init P5 canvas
