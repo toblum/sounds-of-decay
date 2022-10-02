@@ -52,31 +52,6 @@ a:hover {
 	color: #c6e0e4;
 }
 
-button {
-	border-radius: 8px;
-	border: 1px solid transparent;
-	padding: 0.1em;
-	font-size: 1em;
-	font-weight: 500;
-	font-family: inherit;
-	background-color: rgba(255, 255, 255, 0.31);
-	cursor: pointer;
-	transition: border-color 0.25s;
-	transition: color 0.25s;
-	color: #fff;
-}
-
-button:hover {
-	border-color: #fff;
-	background-color: rgba(255, 255, 255, 0.78);
-	color: rgb(79, 79, 79);
-}
-
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
-}
-
 select {
 	background-color: rgba(255, 255, 255, 0.31);
 	border-color: inherit;
@@ -148,3 +123,28 @@ input[type=range]::-webkit-slider-runnable-track  {
 		background-color: #ffffff; */
 	}
 }
+
+/* button {
+	border-radius: 8px;
+	border: 1px solid transparent;
+	padding: 0.1em;
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+	background-color: rgba(255, 255, 255, 0.31);
+	cursor: pointer;
+	transition: border-color 0.25s;
+	transition: color 0.25s;
+	color: #fff;
+}
+
+button:hover {
+	border-color: #fff;
+	background-color: rgba(255, 255, 255, 0.78);
+	color: rgb(79, 79, 79);
+}
+
+button:focus,
+button:focus-visible {
+	outline: 4px auto -webkit-focus-ring-color;
+} */

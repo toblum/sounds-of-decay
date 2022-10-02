@@ -9,8 +9,7 @@ document.querySelector("#app").innerHTML = `
 <div>
 	<div id="header">
 		<div>
-			Sounds of decay<br/>
-			<button id="btn_pause" type="button">Pause</button>
+			Sounds of decay
 		</div>
 		<div>
 			Note pool:<br/>
@@ -96,17 +95,22 @@ socket.onerror = function (error) {
 		musicGenerator.playNextNote();
 	};
 
-	const startPlay = () => {
+	const startPlaying = () => {
 		isPlaying = true;
 
-		socket.onmessage = function (event) {
-			console.log(`[message] Data received from server: ${event.data}`);
+	};
+	socket.onmessage = function (event) {
+		console.log(`[message] Data received from server: ${event.data}`);
 
-			if (isPlaying) {
-				playNote();
-				canvas.addDecayParticle();
-			}
-		};
+		if (isPlaying) {
+			playNote();
+		}
+		canvas.addDecayParticle();
+	};
+
+	const pausePlaying = () => {
+		isPlaying = false;
+		canvas.pause();
 	};
 
 	for (const key in NOTEPOOLS) {
@@ -155,13 +159,12 @@ socket.onerror = function (error) {
 		soundGenerator.setFade(e.target.value);
 	});
 
-	document.getElementById("btn_pause").addEventListener("click", () => {
-		isPlaying = false;
-		canvas.pause();
+	containerElement.addEventListener("clickPlay", () => {
+		startPlaying();
 	});
 
-	containerElement.addEventListener("clickPlay", () => {
-		startPlay();
+	containerElement.addEventListener("clickPause", () => {
+		pausePlaying();
 	});
 
 	containerElement.addEventListener("clickCanvas", () => {

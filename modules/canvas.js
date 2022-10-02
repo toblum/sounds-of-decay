@@ -7,7 +7,7 @@
 let particles = [];
 
 export const sketch = (p) => {
-	p.state = "wait_for_play";
+	p.state = "paused";
 
 	p.setup = function () {
 		p.createCanvas(800, 300);
@@ -23,9 +23,12 @@ export const sketch = (p) => {
 	p.draw = function () {
 		p.background(54, 165, 183);
 		
-		if (p.state === "wait_for_play") {
-			p.bb = new BigButton(90);
+		if (p.state === "paused") {
+			p.bb = new PlayButton(90);
 			p.bb.display();
+		} else {
+			p.pb = new PauseButton(40, 25, 25);
+			p.pb.display();
 		}
 
 		for (let i = particles.length - 1; i >= 0; i--) {
@@ -49,10 +52,16 @@ export const sketch = (p) => {
 			p._userNode.dispatchEvent(event);
 		}
 
-		if (p.state === "wait_for_play" && p.bb.isHovered()) {
+		if (p.state === "paused" && p.bb && p.bb.isHovered()) {
 			const event = new Event("clickPlay");
 			p._userNode.dispatchEvent(event);
 			p.state = "playing";
+		}
+
+		if (p.state !== "paused" && p.pb && p.pb.isHovered()) {
+			const event = new Event("clickPause");
+			p._userNode.dispatchEvent(event);
+			p.state = "paused";
 		}
 	};
 
@@ -62,11 +71,11 @@ export const sketch = (p) => {
 	};
 
 	p.pause = () => {
-		p.state = "wait_for_play";
+		p.state = "paused";
 	};
 
 
-	class BigButton {
+	class PlayButton {
 		constructor(size) {
 			this.size = size;
 			this.xpos = p.width / 2;
@@ -96,6 +105,41 @@ export const sketch = (p) => {
 			colFill = p.color(0, 0, 0, opacityTriangle);
 			p.fill(colFill);
 			p.triangle(this.xpos - (this.size*0.3), this.ypos - (this.size*0.3), this.xpos - (this.size*0.3), this.ypos + (this.size*0.3), this.xpos + (this.size*0.3), this.ypos);
+		}
+	}
+
+	class PauseButton {
+		constructor(size, xpos, ypos) {
+			this.size = size;
+			this.xpos = xpos;
+			this.ypos = ypos;
+		}
+
+		isHovered() {
+			const halfsize = this.size / 2;
+			return (p.mouseX > this.xpos - halfsize && 
+				p.mouseX < this.xpos + halfsize && 
+				p.mouseY > this.ypos - halfsize && 
+				p.mouseY < this.ypos + halfsize);
+		}
+
+		display() {
+			const hovered = this.isHovered();
+
+			const opacity = (hovered) ? 200 : 80;
+			let colFill = p.color(255, 255, 255, opacity);
+			p.fill(colFill);
+			let colStroke = p.color(255, 255, 255);
+			p.stroke(colStroke);
+			p.rectMode(p.CENTER);
+			p.rect(this.xpos, this.ypos, this.size, this.size, 5);
+
+			const opacityTriangle = (hovered) ? 150 : 50;
+			colFill = p.color(0, 0, 0, opacityTriangle);
+			p.fill(colFill);
+			p.stroke(colFill);
+			p.rect(this.xpos - (this.size*0.2), this.ypos + (this.size*0.0), (this.size*0.25), (this.size*0.5));
+			p.rect(this.xpos + (this.size*0.2), this.ypos + (this.size*0.0), (this.size*0.25), (this.size*0.5));
 		}
 	}
 
