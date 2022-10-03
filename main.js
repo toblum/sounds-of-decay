@@ -100,9 +100,9 @@ socket.onerror = function (error) {
 
 	};
 	socket.onmessage = function (event) {
-		console.log(`[message] Data received from server: ${event.data}`);
+		// console.log(`[message] Data received from server: ${event.data}`);
 
-		if (isPlaying) {
+		if (isPlaying && event.data === "Decay") {
 			playNote();
 		}
 		canvas.addDecayParticle();
