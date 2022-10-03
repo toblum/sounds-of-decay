@@ -68,7 +68,7 @@ export class SoundGenerator {
 			{ note: "G#", octave: 2, file: "samples/Chorus/chorus-male-g#2-PB-loop.wav" },
 			{ note: "G#", octave: 3, file: "samples/Chorus/chorus-male-g#3-PB-loop.wav" },
 		],
-		"Tremulo": [
+		"Violin Tremulo": [
 			{ note: "A#", octave: 3, file: "samples/Tremulo/3_Bb.wav" },
 			{ note: "G", octave: 3, file: "samples/Tremulo/3_G.wav" },
 			{ note: "A#", octave: 4, file: "samples/Tremulo/4_Bb.wav" },
