@@ -29,8 +29,17 @@ body {
 	overflow: hidden;
 }
 
-#header div {
+#header .header_segment {
 	padding: 0.5rem;
+}
+
+#header .header_logo {
+	font-size: large;
+	font-weight: bold;
+}
+
+#header .header_label {
+	padding-bottom: 0.25rem;
 }
 
 #p5-container {

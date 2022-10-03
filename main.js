@@ -8,42 +8,44 @@ import { MELODYGENERATOR, MusicGenerator, NOTEPOOLS } from "./modules/musicgener
 document.querySelector("#app").innerHTML = `
 <div>
 	<div id="header">
-		<div>
-			Sounds of decay
+		<div class="header_segment">
+			<div class="header_logo">Sounds of decay</div>
 		</div>
-		<div>
-			Note pool:<br/>
-			<select id="sel_notepool">
-			</select>
+		<div class="header_segment">
+			<div class="header_label">Note pool:</div>
+			<div class="header_control"><select id="sel_notepool"></select></div>
 		</div>
-		<div>
-			Melody generator:<br/>
-			<select id="sel_melodygenerator">
-			</select>
+		<div class="header_segment">
+			<div class="header_label">Melody generator:</div>
+			<div class="header_control"><select id="sel_melodygenerator"></select></div>
 		</div>
-		<div>
-			Intrument:<br/>
-			<select id="sel_instrument">
-				<option value="Grand Piano">Grand Piano</option>
-				<option value="Chorus female">Chorus female</option>
-				<option value="Tremulo">Tremulo</option>
-			</select>
+		<div class="header_segment">
+			<div class="header_label">Intrument:</div>
+			<div class="header_control">
+				<select id="sel_instrument">
+					<option value="Grand Piano">Grand Piano</option>
+					<option value="Chorus female">Chorus female</option>
+					<option value="Tremulo">Tremulo</option>
+				</select>
+			</div>
 		</div>
-		<div>
-			Effects/convolver:<br/>
-			<select id="sel_convolver">
-				<option value="">- None -</option>
-				<option value="RoomMedium">Medium room</option>
-				<option value="AirportTerminal">Airport Terminal</option>
-			</select>
+		<div class="header_segment">
+			<div class="header_label">Effects/convolver:</div>
+			<div class="header_control">
+				<select id="sel_convolver">
+					<option value="">- None -</option>
+					<option value="RoomMedium">Medium room</option>
+					<option value="AirportTerminal">Airport Terminal</option>
+				</select>
+			</div>
 		</div>
-		<div>
-			Gain:<br/>
-			<input type="range" id="rng_gain" min="0" max="2" value="0.7" step="0.01">
+		<div class="header_segment">
+			<div class="header_label">Gain:</div>
+			<div class="header_control"><input type="range" id="rng_gain" min="0" max="2" value="0.7" step="0.01"></div>
 		</div>
-		<div>
-			Fade time:<br/>
-			<input type="range" id="rng_fade" min="0" max="2" value="0.7" step="0.1">
+		<div class="header_segment">
+			<div class="header_label">Fade time:</div>
+			<div class="header_control"><input type="range" id="rng_fade" min="0" max="2" value="0.7" step="0.1"></div>
 		</div>
 	</div>
 
