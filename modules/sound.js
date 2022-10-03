@@ -90,7 +90,7 @@ export class SoundGenerator {
 
 	// Helper functions
 	fetchSample(path) {
-		return fetch(encodeURI(path))
+		return fetch(escape(path))
 			.then((response) => response.arrayBuffer())
 			.then((arrayBuffer) => this._audioContext.decodeAudioData(arrayBuffer));
 	}
