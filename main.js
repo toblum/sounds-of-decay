@@ -27,6 +27,7 @@ document.querySelector("#app").innerHTML = `
 				<select id="sel_instrument">
 					<option value="Grand Piano">Grand Piano</option>
 					<option value="Chorus female">Chorus female</option>
+					<option value="Chorus male">Chorus male</option>
 					<option value="Tremulo">Tremulo</option>
 				</select>
 			</div>
