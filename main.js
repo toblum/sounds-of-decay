@@ -3,6 +3,7 @@ import { sketch } from "./modules/canvas";
 import { SoundGenerator } from "./modules/sound";
 import { MELODYGENERATOR, MusicGenerator, NOTEPOOLS } from "./modules/musicgenerator";
 
+console.log("%cPackage: __CLI_NAME__, version: __CLI_VERSION__, date: __CLI_TS__", "background-color: #36a5b7; color: #FFF;");
 
 // Init app HTML
 document.querySelector("#app").innerHTML = `
@@ -10,6 +11,7 @@ document.querySelector("#app").innerHTML = `
 	<div id="header">
 		<div class="header_segment">
 			<div class="header_logo">Sounds of decay</div>
+			<div>__CLI_VERSION__</div>
 		</div>
 		<div class="header_segment">
 			<div class="header_label">Note pool:</div>
@@ -71,7 +73,6 @@ let socket = new WebSocket("wss://decayrelay.tobiasblum.de");
 
 socket.onopen = function () {
 	console.log("[open] Connection established");
-	console.log("Sending to server");
 };
 
 socket.onclose = function (event) {
