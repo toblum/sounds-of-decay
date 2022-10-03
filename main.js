@@ -30,6 +30,7 @@ document.querySelector("#app").innerHTML = `
 					<option value="Chorus male">Chorus male</option>
 					<option value="Violin Tremulo">Violin Tremulo</option>
 					<option value="Cello Tremulo">Cello Tremulo</option>
+					<option value="Bass solo">Bass solo</option>
 					<option value="Xylophone">Xylophone</option>
 				</select>
 			</div>
